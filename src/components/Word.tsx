@@ -2,17 +2,17 @@ import Square from "./Square";
 
 type WordProps = {
   word: string;
-  handleClick: any;
+  wordArray: any[];
 };
 
-const Word: React.FunctionComponent<WordProps> = ({ word, handleClick }) => {
+const Word: React.FunctionComponent<WordProps> = ({ word, wordArray }) => {
   return (
     <section className="word-section">
       {word
         .toString()
         .split("")
         .map((letter, index) => (
-          <Square key={index} value={letter} handleClick={handleClick}></Square>
+          <Square key={index} value={letter} status={wordArray[index]}></Square>
         ))}
     </section>
   );

@@ -186,6 +186,16 @@ main {
   height: 50px;
 }
 
+.right {
+  background-color: var(--clr-green-400);
+  color: white;
+}
+
+.wrong {
+  background-color: var(--clr-red-400);
+  color: white;
+}
+
 /*
 h1 {
   align-self: center;

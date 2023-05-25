@@ -7,13 +7,14 @@ import getRandomInteger from "../helpers/getRandomInteger";
 /* import wordList from "../wordsapi_sample.json"; */
 
 const Game = () => {
+  const keyboard: string = "qwertyuiopasdfghjkl zxcvbnm";
+  const wordLength: number = getRandomInteger(5, 10);
   const [word, setWord] = useState("");
   const [attempts, setAttempts] = useState(100);
-
-  const keyboard: string = "qwertyuiopasdfghjkl zxcvbnm";
+  const [keyboardArray, setKeyboardArray] = useState(Array(27).fill(null));
+  const [wordArray, setWordArray] = useState(Array(wordLength).fill(null));
 
   useEffect(() => {
-    const wordLength: number = getRandomInteger(5, 10);
     setAttempts(Math.ceil(wordLength / 2));
     fetch(`https://random-word-api.herokuapp.com/word?length=${wordLength}`)
       .then((res) => res.json())
@@ -21,15 +22,32 @@ const Game = () => {
   }, []);
 
   /* handle the click on a keyboard square */
-  function handleClick(index: string): any {
+  function handleClick(index: number): any {
     console.log(index);
-    /* if the square has a X or O do nothing */
-    /* if (squares[index]) return; */
 
-    /* create a copy of squares to modify the new move */
-    /* let newSquares = squares.slice();
-    newSquares[index] = isXNext ? "X" : "O";
-    setSquares(newSquares); */
+    /* if the square has been selected do nothing */
+    if (keyboardArray[index]) return;
+
+    /* create a copy of the array to modify */
+    let newKeyboardArray = keyboardArray.slice();
+    let newWordArray = wordArray.slice();
+
+    /* Check if the clicked letter is in the password */
+    let letter = keyboard.charAt(index);
+    if (word.toString().includes(letter)) {
+      newKeyboardArray[index] = "Right";
+      for (let i = 0; i < word.toString().length; i++) {
+        if (word.toString().charAt(i) == letter) newWordArray[i] = "Right";
+      }
+    } else {
+      newKeyboardArray[index] = "Wrong";
+      setAttempts((current) => current - 1);
+    }
+    setKeyboardArray(newKeyboardArray);
+    setWordArray(newWordArray);
+
+    /* console.log(newKeyboardArray);
+    console.log(newWordArray); */
 
     /* if the current move is a  */
     /* if (calculateWinner(newSquares)) return;
@@ -76,8 +94,12 @@ const Game = () => {
   return (
     <main>
       <Bomb attempts={attempts}></Bomb>
-      <Word word={word} handleClick={handleClick}></Word>
-      <Keyboard word={keyboard} handleClick={handleClick}></Keyboard>
+      <Word word={word} wordArray={wordArray}></Word>
+      <Keyboard
+        word={keyboard}
+        keyboardArray={keyboardArray}
+        handleClick={handleClick}
+      ></Keyboard>
     </main>
   );
 };
