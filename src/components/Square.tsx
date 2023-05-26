@@ -3,6 +3,7 @@ type SquareProps = {
   handleClick?: any;
   value: string;
   status: any;
+  type: string;
 };
 
 const Square: React.FunctionComponent<SquareProps> = ({
@@ -10,15 +11,16 @@ const Square: React.FunctionComponent<SquareProps> = ({
   handleClick,
   value,
   status,
+  type,
 }) => {
   return (
     <div
       className={
         status == "Right"
-          ? "square right"
+          ? `square right ${type}`
           : status == "Wrong"
-          ? "square wrong"
-          : "square"
+          ? `square wrong ${type}`
+          : `square ${type}`
       }
       onClick={() => handleClick(index)}
     >

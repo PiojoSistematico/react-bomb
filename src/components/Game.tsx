@@ -4,26 +4,25 @@ import Bomb from "./Bomb";
 import Word from "./Word";
 import getRandomInteger from "../helpers/getRandomInteger";
 
-/* import wordList from "../wordsapi_sample.json"; */
-
 const Game = () => {
   const keyboard: string = "qwertyuiopasdfghjkl zxcvbnm";
-  const wordLength: number = getRandomInteger(5, 10);
+  const wordLength: number = getRandomInteger(5, 8);
   const [word, setWord] = useState("");
   const [attempts, setAttempts] = useState(100);
   const [keyboardArray, setKeyboardArray] = useState(Array(27).fill(null));
   const [wordArray, setWordArray] = useState(Array(wordLength).fill(null));
 
   useEffect(() => {
-    setAttempts(Math.ceil(wordLength / 2));
-    fetch(`https://random-word-api.herokuapp.com/word?length=${wordLength}`)
+    setAttempts(wordLength);
+    /* fetch(`https://random-word-api.herokuapp.com/word?length=${wordLength}`) */
+    fetch(`https://random-word-api.vercel.app/api?words=1&length=${wordLength}`)
       .then((res) => res.json())
       .then((data) => setWord(data));
   }, []);
 
   /* handle the click on a keyboard square */
   function handleClick(index: number): any {
-    console.log(index);
+    if (index == 19) return;
 
     /* if the square has been selected do nothing */
     if (keyboardArray[index]) return;
@@ -42,63 +41,31 @@ const Game = () => {
     } else {
       newKeyboardArray[index] = "Wrong";
       setAttempts((current) => current - 1);
+      if (attempts == 1) {
+        for (let i = 0; i < newWordArray.length; i++) {
+          if (newWordArray[i] == null) newWordArray[i] = "Wrong";
+        }
+      }
     }
+
     setKeyboardArray(newKeyboardArray);
     setWordArray(newWordArray);
-
-    /* console.log(newKeyboardArray);
-    console.log(newWordArray); */
-
-    /* if the current move is a  */
-    /* if (calculateWinner(newSquares)) return;
-    setIsXNext(!isXNext); */
   }
 
   /* refresh page for a new game */
-  /* function refreshPage() {
+  function refreshPage(): void {
     window.location.reload();
-  }*/
-
-  /* const [isXNext, setIsXNext] = useState(true);
-  const [squares, setSquares] = useState(Array(9).fill(null)); */
-
-  /* calculate a winner from the current set of values of squares */
-  /* const isThereAWinner = calculateWinner(squares); */
-
-  /* if there is a winner change the h1 and add a new game button */
-  /* let header;
-  if (isThereAWinner) {
-    header = (
-      <>
-        <p>
-          The winner is{" "}
-          <span className={isXNext ? "x-symbol" : "o-symbol"}>
-            {isXNext ? "X" : "O"}
-          </span>
-        </p>
-        <button onClick={() => refreshPage()}>New game</button>
-      </>
-    );
-  } else { */
-  /* if there is not a winner show the next move */
-  /* header = (
-      <p>
-        Next player{" "}
-        <span className={isXNext ? "x-symbol" : "o-symbol"}>
-          {isXNext ? "X" : "O"}
-        </span>
-      </p>
-    );
-  } */
+  }
 
   return (
     <main>
-      <Bomb attempts={attempts}></Bomb>
+      <Bomb attempts={attempts} refreshPage={refreshPage}></Bomb>
       <Word word={word} wordArray={wordArray}></Word>
       <Keyboard
         word={keyboard}
         keyboardArray={keyboardArray}
         handleClick={handleClick}
+        attempts={attempts}
       ></Keyboard>
     </main>
   );

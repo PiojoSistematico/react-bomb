@@ -12,7 +12,12 @@ const Word: React.FunctionComponent<WordProps> = ({ word, wordArray }) => {
         .toString()
         .split("")
         .map((letter, index) => (
-          <Square key={index} value={letter} status={wordArray[index]}></Square>
+          <Square
+            key={index}
+            value={letter}
+            status={wordArray[index]}
+            type={"word-square"}
+          ></Square>
         ))}
     </section>
   );

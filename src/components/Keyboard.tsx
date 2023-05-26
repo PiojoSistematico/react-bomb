@@ -4,15 +4,21 @@ type KeyboardProps = {
   word: string;
   handleClick: any;
   keyboardArray: any[];
+  attempts: number;
 };
 
 const Keyboard: React.FunctionComponent<KeyboardProps> = ({
   word,
   handleClick,
   keyboardArray,
+  attempts,
 }) => {
   return (
-    <section className="keyboard-section">
+    <section
+      className={
+        attempts > 0 ? "keyboard-section" : "keyboard-section disabled"
+      }
+    >
       {word
         .toString()
         .split("")
@@ -23,6 +29,7 @@ const Keyboard: React.FunctionComponent<KeyboardProps> = ({
             value={letter}
             status={keyboardArray[index]}
             handleClick={handleClick}
+            type={""}
           ></Square>
         ))}
     </section>

@@ -186,6 +186,10 @@ main {
   height: 50px;
 }
 
+.word-square {
+  color: transparent;
+}
+
 .right {
   background-color: var(--clr-green-400);
   color: white;
@@ -194,6 +198,10 @@ main {
 .wrong {
   background-color: var(--clr-red-400);
   color: white;
+}
+
+.disabled {
+  pointer-events: none;
 }
 
 /*
