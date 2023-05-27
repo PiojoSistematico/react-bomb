@@ -13,15 +13,18 @@ const Game = () => {
   const [wordArray, setWordArray] = useState(Array(wordLength).fill(null));
 
   useEffect(() => {
-    setAttempts(wordLength);
+    setAttempts(Math.floor(1.5 * wordLength));
+    /* here you can use the api of your choice */
     /* fetch(`https://random-word-api.herokuapp.com/word?length=${wordLength}`) */
     fetch(`https://random-word-api.vercel.app/api?words=1&length=${wordLength}`)
       .then((res) => res.json())
+      .catch((error) => setWord("error"))
       .then((data) => setWord(data));
   }, []);
 
   /* handle the click on a keyboard square */
-  function handleClick(index: number): any {
+  function handleClick(index: number): void {
+    /* Empty key on the keyboard */
     if (index == 19) return;
 
     /* if the square has been selected do nothing */
@@ -59,7 +62,11 @@ const Game = () => {
 
   return (
     <main>
-      <Bomb attempts={attempts} refreshPage={refreshPage}></Bomb>
+      <Bomb
+        attempts={attempts}
+        refreshPage={refreshPage}
+        wordArray={wordArray}
+      ></Bomb>
       <Word word={word} wordArray={wordArray}></Word>
       <Keyboard
         word={keyboard}

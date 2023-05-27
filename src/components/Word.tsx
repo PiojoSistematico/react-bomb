@@ -16,7 +16,7 @@ const Word: React.FunctionComponent<WordProps> = ({ word, wordArray }) => {
             key={index}
             value={letter}
             status={wordArray[index]}
-            type={"word-square"}
+            type={"word-square disabled"}
           ></Square>
         ))}
     </section>

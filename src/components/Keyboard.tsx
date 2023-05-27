@@ -2,7 +2,7 @@ import Square from "./Square";
 
 type KeyboardProps = {
   word: string;
-  handleClick: any;
+  handleClick: (index: number) => void;
   keyboardArray: any[];
   attempts: number;
 };
