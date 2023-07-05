@@ -2,7 +2,6 @@ import bomb from "../assets/bomb-svgrepo-com.svg";
 import explosion from "../assets/explosion-svgrepo-com.svg";
 
 type BombProps = {
-  /* squares: any[]; */
   attempts: number;
   refreshPage: () => void;
   wordArray: any[];
