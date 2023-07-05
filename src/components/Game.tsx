@@ -18,7 +18,6 @@ const Game = () => {
     /* fetch(`https://random-word-api.herokuapp.com/word?length=${wordLength}`) */
     fetch(`https://random-word-api.vercel.app/api?words=1&length=${wordLength}`)
       .then((res) => res.json())
-      .catch((error) => setWord("error"))
       .then((data) => setWord(data));
   }, []);
 
